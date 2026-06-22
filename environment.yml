@@ -1,0 +1,14 @@
+name: chem-ml
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - rdkit
+  - pandas
+  - numpy
+  - scikit-learn
+  - matplotlib
+  - jupyterlab
+  - notebook
+  - ipykernel
+  - pip

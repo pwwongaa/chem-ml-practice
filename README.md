@@ -1,74 +1,84 @@
 # Chem Machine Learning Practice
 
-This repository contains my practical notebooks for learning and applying machine learning in chemistry and cheminformatics. The aim is to build a clean portfolio of reproducible examples covering molecular representation, descriptor calculation, exploratory analysis, QSAR-style modelling and basic deep learning workflows for chemical data.
+This repository contains practical learning notebooks for chemistry-focused machine learning and cheminformatics.
 
-## Focus areas
+The current notebooks are starter placeholders. They are intended to be replaced or expanded with real project notebooks covering RDKit, molecular descriptors, QSAR-style modelling, molecular classification and introductory deep learning for chemical data.
 
-* Molecular parsing and standardisation using RDKit
-* SMILES-based molecule handling
-* Molecular descriptors, fingerprints and physicochemical features
-* Exploratory data analysis for chemical datasets
-* QSAR-style regression and classification models
-* Model evaluation using appropriate metrics
-* Visualisation of chemical structures and model outputs
-* Reproducible Jupyter notebook workflows
+## Main aims
 
-## Planned notebook sequence
-
-| Notebook                               | Topic                               | Main skills demonstrated                              |
-| -------------------------------------- | ----------------------------------- | ----------------------------------------------------- |
-| `01_rdkit_molecule_analyser.ipynb`     | Basic molecule loading and analysis | SMILES parsing, structure display, descriptors        |
-| `02_molecular_descriptors.ipynb`       | Descriptor calculation              | LogP, molecular weight, H-bond donors/acceptors, TPSA |
-| `03_qsar_regression_baseline.ipynb`    | Regression modelling                | Feature engineering, train/test split, RMSE, R²       |
-| `04_molecular_classification.ipynb`    | Classification modelling            | Fingerprints, classifiers, accuracy, ROC-AUC          |
-| `05_deep_learning_for_molecules.ipynb` | Introductory deep learning          | Neural network baseline for chemical features         |
-
-## Example skills shown
-
-This repository demonstrates practical experience in:
-
-* Python
-* RDKit
-* pandas / NumPy
-* scikit-learn
-* matplotlib
-* Jupyter notebooks
-* Molecular descriptors
-* Chemical data cleaning
-* Machine learning model evaluation
+- Practise cheminformatics workflows using Python and RDKit
+- Convert SMILES strings into molecular objects and features
+- Build descriptor and fingerprint datasets
+- Train baseline machine learning models for molecular prediction tasks
+- Show reproducible notebook-based chemistry ML practice
+- Develop a GitHub portfolio for cheminformatics and scientific machine learning
 
 ## Repository structure
 
 ```text
 chem-machine-learning-practice/
-├── notebooks/          # Main learning notebooks
-├── src/                # Reusable helper functions
-├── data/               # Small public example datasets only
-├── figures/            # Exported plots and molecule images
-├── environment.yml     # Conda environment
-├── requirements.txt    # Python package list
-└── README.md
+├── README.md
+├── notebooks/
+│   ├── 01_rdkit_molecule_analyser.ipynb
+│   ├── 02_molecular_descriptors.ipynb
+│   ├── 03_qsar_regression_baseline.ipynb
+│   ├── 04_molecular_classification.ipynb
+│   └── 05_deep_learning_for_molecules.ipynb
+├── src/
+│   └── chem_ml_utils.py
+├── data/
+│   ├── README.md
+│   └── example_molecules.csv
+├── figures/
+├── environment.yml
+├── requirements.txt
+└── .gitignore
 ```
 
-## Setup
+## Notebook plan
 
-Create the environment with Conda:
+| Notebook | Purpose |
+|---|---|
+| `01_rdkit_molecule_analyser.ipynb` | Load SMILES, create RDKit molecules and inspect basic properties |
+| `02_molecular_descriptors.ipynb` | Calculate molecular descriptors and build a feature table |
+| `03_qsar_regression_baseline.ipynb` | Train a simple regression model using molecular descriptors |
+| `04_molecular_classification.ipynb` | Train a simple classifier using descriptors or fingerprints |
+| `05_deep_learning_for_molecules.ipynb` | Build an introductory neural-network workflow for molecular features |
+
+## Setup with Conda
 
 ```bash
 conda env create -f environment.yml
 conda activate chem-ml
 ```
 
-Or install core packages with pip:
+## Setup with pip
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Notes
+RDKit is usually easiest to install via Conda using the `conda-forge` channel.
 
-The notebooks in this repository are for learning, demonstration and portfolio purposes. Any datasets used should be public, synthetic or small example datasets. Large datasets, private files, API keys and unpublished research data should not be committed to the repository.
+## Suggested GitHub topics
+
+```text
+cheminformatics
+machine-learning
+chemistry
+rdkit
+qsar
+molecular-descriptors
+python
+jupyter-notebook
+scikit-learn
+deep-learning
+```
+
+## Data note
+
+Only small public, synthetic or educational example datasets should be committed. Do not upload private research data, proprietary datasets, API keys, credentials or large raw files.
 
 ## Status
 
-Work in progress. More notebooks will be added as I continue developing my chemistry machine learning and cheminformatics workflow.
+Work in progress. The starter notebooks are intentionally minimal and will be expanded as the project develops.
