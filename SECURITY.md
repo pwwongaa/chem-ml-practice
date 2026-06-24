@@ -1,7 +1,13 @@
-# Security policy
+# Security Policy
 
-This repository is for educational cheminformatics and molecular ML practice.
+This repository is for educational cheminformatics and machine-learning notebooks.
 
-Please do not include or report private datasets, credentials, tokens, API keys, patient information, company data or paid database exports in issues or pull requests.
+Do not commit:
 
-If you find a security or privacy issue in the repository contents, open a private communication channel with the maintainer or report it through the platform's security advisory mechanism.
+- API keys or tokens;
+- private datasets;
+- unpublished commercial data;
+- patient, clinical or personally identifiable data;
+- local absolute paths from your machine.
+
+If you find a security issue, open a private report through GitHub security advisories where available.

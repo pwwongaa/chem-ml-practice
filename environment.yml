@@ -1,21 +1,18 @@
 name: chem-ml-practice
 channels:
   - conda-forge
-  - pytorch
 dependencies:
   - python=3.10
   - numpy
   - pandas
   - matplotlib
   - scikit-learn
-  - scipy
-  - joblib
   - rdkit
+  - requests
   - jupyterlab
-  - notebook
   - ipykernel
-  - pytorch
+  - nbformat
+  - nbclient
   - pip
   - pip:
-      - deepchem
-      - torch-geometric
+      - torch

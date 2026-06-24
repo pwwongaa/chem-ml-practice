@@ -1,20 +1,26 @@
 # Contributing
 
-Contributions are welcome for educational improvements, bug fixes and clearer explanations.
+Contributions are welcome if they improve clarity, correctness or reproducibility.
 
-## Guidelines
+## Good contributions
 
-- Keep notebooks self-contained and runnable.
-- Keep comments concise and in English.
-- Do not commit private datasets, credentials or local configuration files.
-- Prefer public datasets with clear source notes.
-- Explain chemistry assumptions and ML limitations clearly.
+- Fix notebook bugs or dependency issues.
+- Improve explanations without making the notebooks overly long.
+- Add small, well-scoped exercises.
+- Improve model diagnostics or visualisation.
+- Add public datasets with clear licensing.
 
-## Before submitting changes
+## Style
+
+- Keep notebooks beginner-friendly but technically accurate.
+- Use numbered sections, not chapter wording.
+- Keep comments close to the relevant code.
+- Avoid private data, secrets or local machine paths.
+
+## Before opening a pull request
 
 Run:
 
 ```bash
-python scripts/check_notebook_syntax.py notebooks
-python scripts/scan_repo_safety.py .
+python scripts/check_notebooks.py
 ```

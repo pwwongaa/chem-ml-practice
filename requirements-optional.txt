@@ -1,7 +1,9 @@
-# Optional dependencies for Project 5 deep learning sections
-# Install only if needed. Exact versions may depend on CPU/GPU/CUDA environment.
-torch>=2.1
-# PyTorch Geometric installation can require environment-specific wheels.
-torch-geometric>=2.5
-# DeepChem support varies by Python/TensorFlow versions. Conda or Python 3.10 is often safer.
+# Optional packages for Project 5 deep-learning sections.
+# Install these only when you need the GNN / DeepChem parts.
+
+torch>=2.0
+# torch-geometric installation can depend on the PyTorch/CUDA version.
+# See the official PyTorch Geometric installation matrix if pip installation fails.
+torch-geometric>=2.4
+
 deepchem>=2.8

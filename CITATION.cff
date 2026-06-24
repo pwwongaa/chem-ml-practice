@@ -1,9 +1,11 @@
 cff-version: 1.2.0
-title: Chem Machine Learning Practice
-message: If you use this educational repository, please cite it as a learning resource.
+title: "Chem ML Practice"
+message: "If you use this learning repository, please cite it as below."
 type: software
 authors:
-  - name: D
+  - family-names: Wong
+    given-names: Danny
+repository-code: "https://github.com/pwwongaa/chem-ml-practice"
 license: MIT
 version: 1.0.0
 date-released: 2026-06-24
