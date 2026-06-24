@@ -189,7 +189,10 @@ For stronger research-grade work, future extensions should add:
 
 ## 🧑‍💻 Author
 
-Created by **Danny / pwwongaa** as a practical cheminformatics machine-learning learning repo.
+Created and curated by **Danny / pwwongaa** as a practical cheminformatics machine-learning learning repo.
+
+This project was developed as a human-led learning and portfolio project, with AI-assisted drafting used for parts of the educational explanations, exercise formatting and documentation polish.
+
 
 ---
 
