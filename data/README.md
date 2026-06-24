@@ -1,19 +1,15 @@
-# Data
+# Data directory
 
-This folder stores small example datasets for the chemistry machine learning notebooks.
+This directory is reserved for small public/example datasets only.
 
-## Included file
+The notebooks can also load public datasets directly from URLs or DeepChem loaders. Do not commit private, proprietary, patient, API-key-linked or commercially restricted datasets.
 
-- `example_molecules.csv`: a small educational toy dataset containing molecule names, SMILES strings and simple example labels/properties.
+Expected simple CSV schema for custom classification practice:
 
-## Rules
+```csv
+name,smiles,label
+benzyl acetate,CC(=O)OCC1=CC=CC=C1,1
+glucose,C(C1C(C(C(C(O1)O)O)O)O)O,0
+```
 
-Do not commit:
-
-- private research data
-- unpublished datasets
-- large raw files
-- passwords, API keys or credentials
-- licensed commercial datasets
-
-For larger datasets, store only download instructions or preprocessing scripts.
+For regression, use `target` instead of `label`.

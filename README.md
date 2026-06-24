@@ -1,84 +1,93 @@
 # Chem Machine Learning Practice
 
-This repository contains practical learning notebooks for chemistry-focused machine learning and cheminformatics.
+A five-notebook practice repository for cheminformatics, QSAR, molecular machine learning and molecular deep learning. The project is designed as a compact learning portfolio: each notebook is independent, runnable and focused on one modelling idea.
 
-The current notebooks are starter placeholders. They are intended to be replaced or expanded with real project notebooks covering RDKit, molecular descriptors, QSAR-style modelling, molecular classification and introductory deep learning for chemical data.
+## What this repo demonstrates
 
-## Main aims
+- RDKit-based molecule parsing, drawing, descriptor calculation and functional-group checks.
+- Descriptor-based QSAR regression with model comparison and diagnostic plots.
+- Morgan fingerprint QSAR, applicability-domain analysis and scaffold-aware evaluation.
+- Molecular classification with ROC-AUC, PR-AUC, confusion matrices and threshold tuning.
+- Deep learning chemistry workflows using PyTorch, PyTorch Geometric-style GNNs and DeepChem data loaders.
 
-- Practise cheminformatics workflows using Python and RDKit
-- Convert SMILES strings into molecular objects and features
-- Build descriptor and fingerprint datasets
-- Train baseline machine learning models for molecular prediction tasks
-- Show reproducible notebook-based chemistry ML practice
-- Develop a GitHub portfolio for cheminformatics and scientific machine learning
+## Project map
+
+| Project | Notebook | Main concept | Typical target |
+|---|---|---|---|
+| 1 | `01_rdkit_molecule_analyser.ipynb` | RDKit molecule analysis | descriptors, Lipinski rules, functional groups |
+| 2 | `02_molecular_descriptors_qsar.ipynb` | Descriptor-based QSAR | ESOL logS regression |
+| 3 | `03_morgan_fingerprint_qsar.ipynb` | Morgan fingerprint QSAR | logS regression and applicability domain |
+| 4 | `04_molecular_classification.ipynb` | Molecular classification | high/low solubility or other binary labels |
+| 5 | `05_deep_learning_chemistry.ipynb` | Molecular deep learning | MLP, GNN and DeepChem workflows |
+
+## Learning route
+
+Run the notebooks in order if you are learning from scratch:
+
+1. **Project 1:** Learn how SMILES become RDKit molecule objects and descriptors.
+2. **Project 2:** Use descriptors as features for classical QSAR regression.
+3. **Project 3:** Use Morgan fingerprints and compare them with descriptors.
+4. **Project 4:** Change the problem type from regression to classification.
+5. **Project 5:** Replace classical ML with neural-network and graph-learning workflows.
+
+## Installation
+
+Conda is recommended because RDKit is easiest to install from conda-forge.
+
+```bash
+conda env create -f environment.yml
+conda activate chem-ml-practice
+python -m ipykernel install --user --name chem-ml-practice --display-name "chem-ml-practice"
+```
+
+Minimal pip setup may also work for Projects 1-4:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Optional deep-learning packages for Project 5 are listed in `requirements-optional.txt`. DeepChem and PyTorch Geometric can be environment-sensitive, especially on Python 3.12 or different CUDA builds. If an optional dependency fails, Projects 1-4 and the PyTorch MLP parts can still be used.
+
+## Data
+
+The notebooks use small embedded examples and public educational datasets, including ESOL/Delaney and Tox21 via public URLs or DeepChem loaders where available. The repository does not include private, commercial or sensitive datasets.
+
+## Validation and safety checks
+
+This repo package was prepared with these checks:
+
+- Notebook outputs stripped to avoid leaking local runtime paths.
+- Notebook code cells syntax-checked.
+- Repository scanned for common secret patterns.
+- Repository scanned for common local path patterns.
+- English-only documentation and notebook comments.
+
+See `docs/VALIDATION.md` for details.
+
+## Scope and limitations
+
+These notebooks are for education, portfolio practice and prototyping. They are not validated for clinical, regulatory, commercial screening or safety-critical molecular decision making. Model performance depends on dataset quality, train/test split strategy, chemical domain and target definition.
 
 ## Repository structure
 
 ```text
 chem-machine-learning-practice/
-├── README.md
-├── notebooks/
-│   ├── 01_rdkit_molecule_analyser.ipynb
-│   ├── 02_molecular_descriptors.ipynb
-│   ├── 03_qsar_regression_baseline.ipynb
-│   ├── 04_molecular_classification.ipynb
-│   └── 05_deep_learning_for_molecules.ipynb
-├── src/
-│   └── chem_ml_utils.py
-├── data/
-│   ├── README.md
-│   └── example_molecules.csv
-├── figures/
-├── environment.yml
-├── requirements.txt
-└── .gitignore
+├── notebooks/                  # five independent practice notebooks
+├── src/                        # reusable cheminformatics helper functions
+├── data/                       # small public/example data only
+├── docs/                       # validation notes and project notes
+├── scripts/                    # notebook syntax and safety checks
+├── figures/                    # optional generated figures
+├── outputs/                    # optional generated CSV/model outputs
+├── environment.yml             # conda environment
+├── requirements.txt            # core pip dependencies
+├── requirements-optional.txt   # optional DL/DeepChem dependencies
+├── LICENSE                     # MIT License
+└── README.md
 ```
 
-## Notebook plan
+## License
 
-| Notebook | Purpose |
-|---|---|
-| `01_rdkit_molecule_analyser.ipynb` | Load SMILES, create RDKit molecules and inspect basic properties |
-| `02_molecular_descriptors.ipynb` | Calculate molecular descriptors and build a feature table |
-| `03_qsar_regression_baseline.ipynb` | Train a simple regression model using molecular descriptors |
-| `04_molecular_classification.ipynb` | Train a simple classifier using descriptors or fingerprints |
-| `05_deep_learning_for_molecules.ipynb` | Build an introductory neural-network workflow for molecular features |
-
-## Setup with Conda
-
-```bash
-conda env create -f environment.yml
-conda activate chem-ml
-```
-
-## Setup with pip
-
-```bash
-pip install -r requirements.txt
-```
-
-RDKit is usually easiest to install via Conda using the `conda-forge` channel.
-
-## Suggested GitHub topics
-
-```text
-cheminformatics
-machine-learning
-chemistry
-rdkit
-qsar
-molecular-descriptors
-python
-jupyter-notebook
-scikit-learn
-deep-learning
-```
-
-## Data note
-
-Only small public, synthetic or educational example datasets should be committed. Do not upload private research data, proprietary datasets, API keys, credentials or large raw files.
-
-## Status
-
-Work in progress. The starter notebooks are intentionally minimal and will be expanded as the project develops.
+MIT License. See `LICENSE`.

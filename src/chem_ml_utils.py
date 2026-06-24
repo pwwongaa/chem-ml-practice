@@ -1,93 +1,111 @@
-"""
-Utility functions for chemistry machine learning practice.
+"""Reusable cheminformatics utilities for the practice notebooks.
 
-These functions are intentionally lightweight and suitable for starter notebooks.
-They assume RDKit is installed in the active Python environment.
+The functions are intentionally small and explicit so they remain useful for
+learning, debugging and adapting into larger cheminformatics projects.
 """
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from dataclasses import dataclass
+from typing import Iterable
 
+import numpy as np
 import pandas as pd
+from rdkit import Chem
+from rdkit.Chem import Crippen, Descriptors, Lipinski, rdMolDescriptors
+from rdkit.Chem.rdFingerprintGenerator import GetMorganGenerator
+
+
+@dataclass(frozen=True)
+class MoleculeRecord:
+    """Simple molecule record used in examples and tests."""
+
+    name: str
+    smiles: str
 
 
 def smiles_to_mol(smiles: str):
-    """Convert a SMILES string into an RDKit Mol object.
-
-    Returns None if the SMILES string is invalid or RDKit is unavailable.
-    """
+    """Convert a SMILES string into an RDKit Mol object, returning None if invalid."""
+    if smiles is None or pd.isna(smiles):
+        return None
     try:
-        from rdkit import Chem
-    except ImportError:
+        return Chem.MolFromSmiles(str(smiles))
+    except Exception:
         return None
 
-    if not isinstance(smiles, str) or not smiles.strip():
-        return None
 
-    return Chem.MolFromSmiles(smiles)
-
-
-def calculate_basic_descriptors(smiles: str) -> dict:
-    """Calculate a small set of common molecular descriptors from a SMILES string.
-
-    The returned dictionary is suitable for conversion into a pandas DataFrame.
-    """
+def canonical_smiles(smiles: str) -> str | None:
+    """Return canonical SMILES, or None for invalid input."""
     mol = smiles_to_mol(smiles)
-
     if mol is None:
-        return {
-            "valid_molecule": False,
-            "mol_weight": None,
-            "logp": None,
-            "h_donors": None,
-            "h_acceptors": None,
-            "tpsa": None,
-            "rotatable_bonds": None,
-        }
+        return None
+    return Chem.MolToSmiles(mol, canonical=True)
 
-    from rdkit.Chem import Descriptors, Crippen, Lipinski, rdMolDescriptors
 
+def calculate_basic_descriptors(mol) -> dict[str, float]:
+    """Calculate a compact descriptor set used across the notebooks."""
     return {
-        "valid_molecule": True,
-        "mol_weight": Descriptors.MolWt(mol),
-        "logp": Crippen.MolLogP(mol),
-        "h_donors": Lipinski.NumHDonors(mol),
-        "h_acceptors": Lipinski.NumHAcceptors(mol),
-        "tpsa": rdMolDescriptors.CalcTPSA(mol),
-        "rotatable_bonds": Lipinski.NumRotatableBonds(mol),
+        "MolWt": Descriptors.MolWt(mol),
+        "LogP": Crippen.MolLogP(mol),
+        "TPSA": rdMolDescriptors.CalcTPSA(mol),
+        "HBD": Lipinski.NumHDonors(mol),
+        "HBA": Lipinski.NumHAcceptors(mol),
+        "RotatableBonds": Lipinski.NumRotatableBonds(mol),
+        "HeavyAtomCount": Lipinski.HeavyAtomCount(mol),
+        "RingCount": Lipinski.RingCount(mol),
+        "AromaticRingCount": rdMolDescriptors.CalcNumAromaticRings(mol),
+        "FractionCSP3": rdMolDescriptors.CalcFractionCSP3(mol),
     }
 
 
-def build_descriptor_table(
-    data: pd.DataFrame,
-    smiles_column: str = "smiles",
-    keep_original: bool = True,
+def descriptor_dataframe(mols: Iterable) -> pd.DataFrame:
+    """Convert an iterable of RDKit molecules into a descriptor DataFrame."""
+    return pd.DataFrame([calculate_basic_descriptors(mol) for mol in mols])
+
+
+def lipinski_summary(mol) -> dict[str, object]:
+    """Return Lipinski Rule-of-Five values and pass/fail summary."""
+    mw = Descriptors.MolWt(mol)
+    logp = Crippen.MolLogP(mol)
+    hbd = Lipinski.NumHDonors(mol)
+    hba = Lipinski.NumHAcceptors(mol)
+    violations = int(mw > 500) + int(logp > 5) + int(hbd > 5) + int(hba > 10)
+    return {
+        "MolWt": mw,
+        "LogP": logp,
+        "HBD": hbd,
+        "HBA": hba,
+        "LipinskiViolations": violations,
+        "LipinskiPass": violations <= 1,
+    }
+
+
+def morgan_fingerprint_array(mols: Iterable, radius: int = 2, fp_size: int = 2048) -> np.ndarray:
+    """Convert RDKit molecules into a binary Morgan fingerprint matrix."""
+    generator = GetMorganGenerator(radius=radius, fpSize=fp_size)
+    fps = [np.asarray(generator.GetFingerprint(mol), dtype=np.float32) for mol in mols]
+    return np.vstack(fps)
+
+
+def clean_molecule_dataframe(
+    df: pd.DataFrame,
+    smiles_col: str = "smiles",
+    name_col: str | None = "name",
+    drop_duplicates: bool = True,
 ) -> pd.DataFrame:
-    """Create a descriptor table from a DataFrame containing a SMILES column."""
-    if smiles_column not in data.columns:
-        raise ValueError(f"Column not found: {smiles_column}")
+    """Validate SMILES, add Mol/canonical SMILES columns and optionally deduplicate."""
+    if smiles_col not in df.columns:
+        raise ValueError(f"Missing SMILES column: {smiles_col}")
 
-    descriptor_rows = [
-        calculate_basic_descriptors(smiles)
-        for smiles in data[smiles_column]
-    ]
+    clean = df.copy()
+    clean["mol"] = clean[smiles_col].apply(smiles_to_mol)
+    clean = clean[clean["mol"].notnull()].reset_index(drop=True)
+    clean["canonical_smiles"] = clean["mol"].apply(lambda mol: Chem.MolToSmiles(mol, canonical=True))
 
-    descriptor_df = pd.DataFrame(descriptor_rows)
+    if drop_duplicates:
+        clean = clean.drop_duplicates(subset="canonical_smiles").reset_index(drop=True)
 
-    if keep_original:
-        return pd.concat([data.reset_index(drop=True), descriptor_df], axis=1)
+    if name_col and name_col not in clean.columns:
+        clean[name_col] = [f"molecule_{i}" for i in range(len(clean))]
 
-    return descriptor_df
-
-
-def get_numeric_feature_columns(
-    data: pd.DataFrame,
-    exclude: Optional[Iterable[str]] = None,
-) -> list[str]:
-    """Return numeric feature columns, optionally excluding target or metadata columns."""
-    exclude_set = set(exclude or [])
-    return [
-        col for col in data.select_dtypes(include="number").columns
-        if col not in exclude_set
-    ]
+    return clean
