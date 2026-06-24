@@ -1,9 +1,0 @@
-name,smiles,label
-methanol,CO,0
-ethanol,CCO,0
-benzene,c1ccccc1,0
-aspirin,CC(=O)OC1=CC=CC=C1C(=O)O,0
-limonene,CC1=CCC(CC1)C(=C)C,1
-linalool,CC(C)=CCCC(C)(O)C=C,1
-vanillin,COC1=C(C=CC(=C1)C=O)O,1
-eugenol,COC1=CC(=CC=C1O)CC=C,1
